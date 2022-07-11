@@ -1,36 +1,49 @@
 'use strict';
 
-const allEmployee = [];
+const allEmployees = [];
 
-function Employee(employeeId, fullName, department, level,  salary){
+function Employee(employeeId, fullName, department, level,  image){
     this.employeeId = employeeId;
     this.fullName = fullName;
     this.department = department;
     this.level = level;
     // this.image = image;
-    this.salary = salary;
-    allEmployee.push(this);
+    allEmployees.push(this);
 }
 
-const emp1 = new Employee(1000,"Ghazi Samer","Administration","Senior",calculatingTheSalary(1500, 2000));
-const emp2 = new Employee(1001,"Lana Ali","Finance","Senior",calculatingTheSalary(1500, 2000));
-const emp3 = new Employee(1002,"Tamara Ayoub","Marketing", "Senior",calculatingTheSalary(1500, 2000));
-const emp4 = new Employee(1003,"Safi Walid","Administration", "Mid-Senior",calculatingTheSalary(1000, 1500));
-const emp5 = new Employee(1004,"Omar Zaid","Development", "Senior",calculatingTheSalary(1500, 2000));
-const emp6 = new Employee(1005,"Rana Saleh","Development", "Junior",calculatingTheSalary(500, 1000));
-const emp7 = new Employee(1006,"Hadi Ahmad","Finance", "Mid-Senior",calculatingTheSalary(1000, 1500));
 
-Employee.prototype.printEmpInfo = function () {
-    document.write('<p>${this.fullName} : ${this.salary} JD\n<p>');
-}
-
-for (let i=0 ; i<allEmployee.length; i++){
-    allEmployee[i].printEmpInfo();
+Employee.prototype.salary = function() {
+    (this.level.toLowerCase() === "senior")? this.salary = calculatingTheSalary(1500, 2000):
+    (this.level.toLowerCase() === "mid-senior")? this.salary = calculatingTheSalary(1000, 1500):
+    this.salary = calculatingTheSalary(500, 1000)
 }
 
 function calculatingTheSalary(min, max) {
-    const randomSalary = Math.floor(Math.random() * (max - min + 1) ) + min;
-    return randomSalary * 0.075;
-    // return  (Math.floor(Math.random() * (max - min + 1) ) + min);
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
+
+Employee.prototype.netSalary = function() {
+    this.netSalary = Math.floor(this.salary - (this.salary * 0.075));
+}
+
+
+Employee.prototype.printEmpInfo = function () {
+    document.write(` Emplyee Name : ${this.fullName} || Salary :  ${this.salary} || Net Salary  :  ${this.netSalary}<br>`);
+}
+
+
+const ghaziSamer = new Employee(1000,"Ghazi Samer","Administration","Senior","");
+const lanaAli = new Employee(1001,"Lana Ali","Finance","Senior","");
+const tamaraAyoub = new Employee(1002,"Tamara Ayoub","Marketing", "Senior","");
+const safiWalid = new Employee(1003,"Safi Walid","Administration", "Mid-Senior","");
+const omarZaid = new Employee(1004,"Omar Zaid","Development", "Senior","");
+const ranaSaleh = new Employee(1005,"Rana Saleh","Development", "Junior","");
+const hadiAhmad = new Employee(1006,"Hadi Ahmad","Finance", "Mid-Senior","");
+
+for (let i=0 ; i<allEmployees.length; i++){
+    allEmployees[i].salary();
+    allEmployees[i].netSalary();
+    allEmployees[i].printEmpInfo();
+}
+
 
